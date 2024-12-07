@@ -1,1 +1,12 @@
-{}
+{
+    "boards": [
+        {
+            "id": "1",
+            "content": "Board One"
+        },
+        {
+            "id": "2",
+            "content": "Board Two"
+        }
+    ]
+}

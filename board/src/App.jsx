@@ -1,3 +1,4 @@
+import boardService from './services/boards'
 
 const App = () => {
   return (
