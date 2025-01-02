@@ -1,12 +1,24 @@
 {
-    "boards": [
-        {
-            "id": "1",
-            "content": "Board One"
-        },
-        {
-            "id": "2",
-            "content": "Board Two"
-        }
-    ]
+  "boards": [
+    {
+      "id": "1",
+      "content": "Board One"
+    },
+    {
+      "id": "2",
+      "content": "Board Two"
+    },
+    {
+      "id": "d3c4",
+      "content": "a new board"
+    },
+    {
+      "id": "0ada",
+      "content": "Board Four"
+    },
+    {
+      "id": "e832",
+      "content": "Board Five"
+    }
+  ]
 }

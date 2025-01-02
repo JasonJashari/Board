@@ -1,7 +1,5 @@
 import boardService from './services/boards'
-import './index.css'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
 
 const App = () => {
 
@@ -10,7 +8,16 @@ const App = () => {
 
   const addBoard = (event) => {
     event.preventDefault()
-    console.log('button clicked', newBoard)
+    const boardObject = {
+      content: newBoard
+    }
+    
+    boardService
+      .create(boardObject)
+      .then(response => {
+        setBoards(boards.concat(response.data))
+        setNewBoard('')
+      })
   }
 
   const handleBoardChange = (event) => {
@@ -18,10 +25,9 @@ const App = () => {
   }
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/boards')
+    boardService
+      .getAll()
       .then(response => {
-        console.log(response.data)
         setBoards(response.data)
       })
   }, [])
