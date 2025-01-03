@@ -5,6 +5,10 @@ const app = express()
 // from POST request into a Javascript object
 app.use(express.json())
 
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
 let boards = [
   {
     id: "1",
@@ -71,6 +75,9 @@ app.post('/api/boards', (request, response) => {
 
   response.json(board)
 })
+
+// Middleware to catch requests made to non-existing routes
+app.use(unknownEndpoint)
 
 const PORT = 3001
 app.listen(PORT, () => {
