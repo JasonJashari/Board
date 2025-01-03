@@ -1,6 +1,10 @@
 const express = require('express')
 const app = express()
 
+// json-parser middleware to transform JSON data
+// from POST request into a Javascript object
+app.use(express.json())
+
 let boards = [
   {
     id: "1",
@@ -40,6 +44,32 @@ app.delete('/api/boards/:id', (request, response) => {
   boards = boards.filter(board => board.id !== id)
 
   response.status(204).end()
+})
+
+const generateId = () => {
+  const maxId = boards.length > 0
+    ? Math.max(...boards.map(b => Number(b.id)))
+    : 0
+  return String(maxId + 1)
+}
+
+app.post('/api/boards', (request, response) => {
+  const body = request.body
+  
+  if (!body.content) {
+    return response.status(400).json({
+      error: 'content missing'
+    })
+  }
+
+  const board = {
+    id: generateId(),
+    content: body.content,
+  }
+
+  boards = boards.concat(board)
+
+  response.json(board)
 })
 
 const PORT = 3001
