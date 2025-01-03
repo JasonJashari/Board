@@ -35,6 +35,13 @@ app.get('/api/boards/:id', (request, response) => {
   }
 })
 
+app.delete('/api/boards/:id', (request, response) => {
+  const id = request.params.id
+  boards = boards.filter(board => board.id !== id)
+
+  response.status(204).end()
+})
+
 const PORT = 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
