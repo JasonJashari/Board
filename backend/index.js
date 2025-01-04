@@ -1,5 +1,10 @@
 const express = require('express')
+const cors = require('cors')
+
 const app = express()
+
+// cors middleware to allow requests from all origins
+app.use(cors())
 
 // json-parser middleware to transform JSON data
 // from POST request into a Javascript object
