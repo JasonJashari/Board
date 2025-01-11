@@ -3,6 +3,9 @@ const cors = require('cors')
 
 const app = express()
 
+// middleware to serve static files from frontend distributable
+app.use(express.static('dist'))
+
 // cors middleware to allow requests from all origins
 app.use(cors())
 
