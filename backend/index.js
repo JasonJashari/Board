@@ -25,13 +25,8 @@ app.get('/api/boards', (request, response) => {
 
 app.get('/api/boards/:id', (request, response) => {
   const id = request.params.id
-  const board = boards.find(board => board.id === id)
-
-  if (board) {
-    response.json(board)
-  } else {
-    response.status(404).end()
-  }
+  Board.findById(id).then(board => response.json(board))
+  // error response.status(404).end()
 })
 
 app.delete('/api/boards/:id', (request, response) => {
@@ -41,30 +36,18 @@ app.delete('/api/boards/:id', (request, response) => {
   response.status(204).end()
 })
 
-const generateId = () => {
-  const maxId = boards.length > 0
-    ? Math.max(...boards.map(b => Number(b.id)))
-    : 0
-  return String(maxId + 1)
-}
-
 app.post('/api/boards', (request, response) => {
   const body = request.body
-  
+
   if (!body.content) {
-    return response.status(400).json({
-      error: 'content missing'
-    })
+    return response.status(400).json({ error: 'content missing' })
   }
 
-  const board = {
-    id: generateId(),
-    content: body.content,
-  }
+  const board = new Board({
+    content: body.content
+  })
 
-  boards = boards.concat(board)
-
-  response.json(board)
+  board.save().then(savedBoard => response.json(savedBoard))
 })
 
 // Middleware to catch requests made to non-existing routes
