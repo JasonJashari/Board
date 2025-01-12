@@ -1,5 +1,7 @@
+require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
+const Board = require('./models/board')
 
 const app = express()
 
@@ -17,27 +19,8 @@ const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
 }
 
-let boards = [
-  {
-    id: "1",
-    content: "Board One"
-  },
-  {
-    id: "2",
-    content: "Board Two"
-  },
-  {
-    id: "3",
-    content: "Board Three"
-  }
-]
-
-app.get('/', (request, response) => {
-  response.send('<h1>Hello World!</h1>')
-})
-
 app.get('/api/boards', (request, response) => {
-  response.json(boards)
+  Board.find({}).then(boards => response.json(boards))
 })
 
 app.get('/api/boards/:id', (request, response) => {
@@ -87,7 +70,7 @@ app.post('/api/boards', (request, response) => {
 // Middleware to catch requests made to non-existing routes
 app.use(unknownEndpoint)
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
