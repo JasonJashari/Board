@@ -51,11 +51,12 @@ app.get('/api/boards/:id', (request, response, next) => {
     .catch(error => next(error))
 })
 
-app.delete('/api/boards/:id', (request, response) => {
-  const id = request.params.id
-  boards = boards.filter(board => board.id !== id)
-
-  response.status(204).end()
+app.delete('/api/boards/:id', (request, response, next) => {
+  Board.findByIdAndDelete(request.params.id)
+    .then(result => {
+      response.status(204).end()
+    })
+    .catch(error => next(error))
 })
 
 app.post('/api/boards', (request, response) => {
