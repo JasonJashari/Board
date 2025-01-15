@@ -73,6 +73,22 @@ app.post('/api/boards', (request, response) => {
   board.save().then(savedBoard => response.json(savedBoard))
 })
 
+app.put('/api/boards/:id', (request, response, next) => {
+  const body = request.body
+
+  if (!body.content) {
+    return response.status(400).json({ error: 'content missing' })
+  }
+
+  const board = {
+    content: body.content
+  }
+
+  Board.findByIdAndUpdate(request.params.id, board, { new: true })
+    .then(updatedBoard => response.json(updatedBoard))
+    .catch(error => next(error))
+})
+
 // middleware to catch requests made to non-existing routes
 app.use(unknownEndpoint)
 
