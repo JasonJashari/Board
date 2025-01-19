@@ -14,7 +14,10 @@ mongoose.connect(url)
   })
 
 const boardSchema = new mongoose.Schema({
-  content: String
+  content: {
+    type: String,
+    required: true
+  },
 })
 
 // Format objects returned by Mongoose

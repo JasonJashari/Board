@@ -27,6 +27,10 @@ const errorHandler = (error, request, response, next) => {
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'invalid id' })
   }
+  // ValidationError: object validation
+  else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
+  }
 
   // else, pass error to default express error handler
   next(error)
@@ -59,32 +63,26 @@ app.delete('/api/boards/:id', (request, response, next) => {
     .catch(error => next(error))
 })
 
-app.post('/api/boards', (request, response) => {
+app.post('/api/boards', (request, response, next) => {
   const body = request.body
-
-  if (!body.content) {
-    return response.status(400).json({ error: 'content missing' })
-  }
 
   const board = new Board({
     content: body.content
   })
 
-  board.save().then(savedBoard => response.json(savedBoard))
+  board.save()
+    .then(savedBoard => response.json(savedBoard))
+    .catch(error => next(error))
 })
 
 app.put('/api/boards/:id', (request, response, next) => {
-  const body = request.body
+  const { content } = request.body
 
-  if (!body.content) {
-    return response.status(400).json({ error: 'content missing' })
-  }
-
-  const board = {
-    content: body.content
-  }
-
-  Board.findByIdAndUpdate(request.params.id, board, { new: true })
+  Board.findByIdAndUpdate(
+    request.params.id,
+    { content },
+    { new: true, runValidators: true, context: 'query' }
+  )
     .then(updatedBoard => response.json(updatedBoard))
     .catch(error => next(error))
 })
