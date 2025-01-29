@@ -1,17 +1,5 @@
-require('dotenv').config() // Already in index.js
 const mongoose = require('mongoose')
-
-mongoose.set('strictQuery', false)
-
-const url = process.env.MONGODB_URI
-
-mongoose.connect(url)
-  .then(result => {
-    console.log('connected to MongoDB')
-  })
-  .catch(error => {
-    console.log('error connecting to MongoDB:', error.message)
-  })
+// Define mongoose schema for boards
 
 const boardSchema = new mongoose.Schema({
   content: {
