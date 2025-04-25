@@ -1,10 +1,12 @@
 import boardService from './services/boards'
 import { useEffect, useState } from 'react'
+import Board from './components/Board/Board'
+import styles from './App.module.css'
 
 const App = () => {
 
   const [boards, setBoards] = useState([])
-  const [newBoard, setNewBoard] = useState('a new board...')
+  const [newBoard, setNewBoard] = useState('')
 
   const addBoard = (event) => {
     event.preventDefault()
@@ -34,11 +36,19 @@ const App = () => {
 
   return (
     <div>
-      <h1 className='title'>Boards</h1>
+      <h2>Existing Boards</h2>
       
-      <ul>
-        {boards.map(board => <li key={board.id}>{board.content}</li>)}
+      <ul className={styles.boardList}>
+        {boards.map(board => {
+          return (
+            <li key={board.id}>
+              <Board board={board} />
+            </li>
+          )
+        })}
       </ul>
+
+      <h2>Create a new board</h2>
 
       <form onSubmit={addBoard}>
         <input

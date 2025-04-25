@@ -1,7 +1,10 @@
-body {
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+:root {
+  --spacing-s: 1em;
+
+  --colour-primary: rgb(106, 189, 240);
+  --colour-secondary: rgb(85, 154, 197);
 }
 
-.title {
-  font-size: 35px;
+body {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
