@@ -1,8 +1,22 @@
-.boardList {
-  list-style-type: none;
-  padding: 0px 0px;
-
+/* Navbar */
+.navbar {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-s);
+  height: var(--spacing-m);
+  font-size: var(--font-size-large);
+  align-items: center;
+  gap: 1em;
+  margin-bottom: var(--spacing-xs);
 }
+
+.navbar > a {
+  text-decoration: none;
+  color: black;
+  background-color: white;
+  padding: var(--spacing-xxs);
+}
+
+.navbar > a:hover {
+  color: white;
+  background-color: black;
+}
+/* ------------------------------- */

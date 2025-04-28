@@ -2,6 +2,9 @@ import boardService from './services/boards'
 import { useEffect, useState } from 'react'
 import Board from './components/Board/Board'
 import styles from './App.module.css'
+import { Routes, Route, Link, useMatch } from 'react-router-dom'
+import BoardPage from './components/BoardPage/BoardPage'
+import Home from './components/Home/Home'
 
 const App = () => {
 
@@ -34,30 +37,26 @@ const App = () => {
       })
   }, [])
 
+  const match = useMatch('/boards/:id')
+  const board = match ? boards.find(b => b.id === match.params.id) : null
+
   return (
     <div>
-      <h2>Existing Boards</h2>
-      
-      <ul className={styles.boardList}>
-        {boards.map(board => {
-          return (
-            <li key={board.id}>
-              <Board board={board} />
-            </li>
-          )
-        })}
-      </ul>
+        <div className={styles.navbar}>
+          <Link to="/">Home</Link>
+          <Link to="/boards">Boards</Link>
+        </div>
 
-      <h2>Create a new board</h2>
+        <Routes>
+          <Route path="/boards/:id" element={<Board board={board} />} />
+          <Route path="/boards" element={<BoardPage boards={boards} />} />
+          <Route path="/" element={<Home />} />
+        </Routes>
 
-      <form onSubmit={addBoard}>
-        <input
-          value={newBoard}
-          onChange={handleBoardChange}
-        />
-        <button type="submit">save</button>
-      </form>
-
+      <footer className={styles.footer}>
+        <br />
+        <em>Board App, Jason</em>
+      </footer>
     </div>
   )
 }

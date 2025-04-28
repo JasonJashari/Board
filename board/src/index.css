@@ -1,5 +1,13 @@
 :root {
-  --spacing-s: 1em;
+  --spacing-xxs: 3px;
+  --spacing-xs: 13px;
+  --spacing-s: 21px;
+  --spacing-m: 55px;
+  --spacing-l: 89px;
+  --spacing-xl: 144px;
+
+  --font-size-large: 34px;
+  --font-size-massive: 144px;
 
   --colour-primary: rgb(106, 189, 240);
   --colour-secondary: rgb(85, 154, 197);
@@ -7,4 +15,8 @@
 
 body {
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  padding: var(--spacing-xs);
+  background-image: url('../assets/seoul.avif');
+  background-size: cover;
+  background-position: bottom;
 }
