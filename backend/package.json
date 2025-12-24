@@ -6,6 +6,7 @@
     "start": "NODE_ENV=production node index.js",
     "dev": "NODE_END=development nodemon index.js",
     "build:ui": "rm -rf dist && cd ../board/ && npm run build && cp -r dist ../backend",
+    "build:ui:windows": "@powershell Remove-Item -Recurse -Force dist && cd ../board && npm run build && @powershell Copy-Item dist -Recurse ../backend",
     "deploy": "fly deploy",
     "deploy:full": "npm run build:ui && npm run deploy",
     "logs:prod": "fly logs",
