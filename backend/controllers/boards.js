@@ -1,4 +1,4 @@
-const boardsRouter = require('express').Router()
+/*const boardsRouter = require('express').Router()
 const Board = require('../models/board')
 
 boardsRouter.get('/', (request, response) => {
@@ -52,4 +52,4 @@ boardsRouter.put('/:id', (request, response, next) => {
     .catch(error => next(error))
 })
 
-module.exports = boardsRouter
+module.exports = boardsRouter*/
