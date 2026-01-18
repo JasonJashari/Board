@@ -1,9 +1,25 @@
 const config = require("./utils/config");
 const express = require("express");
 const app = express();
-//const boardsRouter = require("./controllers/boards");
 const middleware = require("./utils/middleware");
-const logger = require("./utils/logger");
+const { Sequelize } = require("sequelize");
+
+const sequelize = new Sequelize(
+    config.DB_NAME,
+    config.DB_USERNAME,
+    config.DB_PASSWORD,
+    {
+        host: config.DB_HOST,
+        port: config.DB_PORT,
+        dialect: 'postgres',
+        dialectOptions: {
+            ssl: {
+                require: true,
+                rejectUnauthorized: false,
+            },
+        },
+    }
+)
 
 // middleware to serve static files from frontend distributable
 app.use(express.static("dist"));
