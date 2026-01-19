@@ -1,7 +1,17 @@
-const app = require('./app')
+const express = require('express')
 const config = require('./utils/config')
-const logger = require('./utils/logger')
+const dbConfig = require('./utils/db')
+const boardsRouter = require('./controllers/boards')
 
-app.listen(config.PORT, () => {
-  logger.info(`Server running on port ${config.PORT}`)
-})
+const app = express()
+app.use(express.json())
+app.use('/api/boards', boardsRouter)
+
+const start = async () => {
+  await dbConfig.connectToDatabase()
+  app.listen(config.PORT, () => {
+    console.log(`Server running on port ${config.PORT}`)
+  })
+}
+
+start()
