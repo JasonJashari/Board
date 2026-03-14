@@ -1,54 +1,31 @@
-const { test, after, beforeEach } = require('node:test')
-const assert = require('node:assert')
-const mongoose = require('mongoose')
-const supertest = require('supertest')
-const app = require('../app')
-const Board = require('../models/board')
+const { test, after } = require("node:test");
+const assert = require("node:assert");
+const { sequelize } = require("../utils/db");
+const supertest = require("supertest");
+const app = require("../app");
 
-// superagent object
-// tests can use for making HTTP requests to the backend
-const api = supertest(app)
+const api = supertest(app);
 
-// Initialise the database before every test
-const initialBoards = [
-  {
-    content: 'HTML is easy',
-  },
-  {
-    content: 'Browser can execute only JavaScript'
-  }
-]
-
-beforeEach(async () => {
-  await Board.deleteMany({})
-  let boardObject = new Board(initialBoards[0])
-  await boardObject.save()
-  boardObject = new Board(initialBoards[1])
-  await boardObject.save()
-})
-
-// HTTP GET 'api/boards'
-// verifies that 
-// - response is status code 200
-// - content type header contains "application/json"
-test('boards are returned as json', async () => {
+test("boards are returned as json", async () => {
   await api
-    .get('/api/boards')
+    .get("/api/boards")
     .expect(200)
-    .expect('Content-Type', /application\/json/)
-})
+    .expect("Content-Type", /application\/json/);
+});
 
-test('there are two boards', async () => {
-  const response = await api.get('/api/boards')
-  assert.strictEqual(response.body.length, initialBoards.length)
-})
+test("all boards are returned", async () => {
+  const response = await api.get("/api/boards");
 
-test('the first board is about HTTP methods', async () => {
-  const response = await api.get('/api/boards')
-  const contents = response.body.map(e => e.content)
-  assert(contents.includes('HTML is easy'))
-})
+  assert.strictEqual(response.body.length, 2);
+});
+
+test("a specific board is within the returned boards", async () => {
+  const response = await api.get("/api/boards");
+
+  const contents = response.body.map((e) => e.content);
+  assert(contents.includes("HTML is easy"));
+});
 
 after(async () => {
-  await mongoose.connection.close()
-})
+  await sequelize.close();
+});

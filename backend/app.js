@@ -1,22 +1,18 @@
 const express = require("express");
+const dbConfig = require("./utils/db");
+const logger = require("./utils/logger");
+const boardsRouter = require("./controllers/boards");
+
 const app = express();
-const middleware = require("./utils/middleware");
 
-// middleware to serve static files from frontend distributable
-app.use(express.static("dist"));
+logger.info("Connecting to DB");
 
-// json-parser middleware to transform JSON data
-// from POST request into a Javascript object
+dbConfig
+  .connectToDatabase()
+  .then(() => logger.info("Connected to DB"))
+  .catch((error) => logger.error("Error connecting to DB:", error));
+
 app.use(express.json());
-
-// board router
-//app.use("/api/boards", boardsRouter);
-
-// middleware to catch requests made to non-existing routes
-app.use(middleware.unknownEndpoint);
-
-// last loaded middlware
-// invoked when error is thrown
-app.use(middleware.errorHandler);
+app.use("/api/boards", boardsRouter);
 
 module.exports = app;
